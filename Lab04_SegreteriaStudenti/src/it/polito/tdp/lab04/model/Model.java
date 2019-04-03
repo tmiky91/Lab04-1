@@ -60,4 +60,14 @@ public class Model {
 		return iscritto;
 	}
 
+	public void iscriviStudente(Studente s, Corso c) {
+		List<Studente> studentiIscritti = new LinkedList<Studente>(corsoDao.getStudentiIscrittiAlCorso(c));
+		for(Studente s1: studentiIscritti) {
+			if(s1.getMatricola()!=s.getMatricola()) {
+				studentiIscritti.add(s);
+			}
+		}
+		
+	}
+
 }

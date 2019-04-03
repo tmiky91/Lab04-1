@@ -79,7 +79,6 @@ public class SegreteriaStudentiController {
     	}
     	risultato+=model.getCorsiSeguiti(s);
     	txtResult.setText(risultato);
-
     }
 
     @FXML
@@ -96,7 +95,34 @@ public class SegreteriaStudentiController {
 
     @FXML
     void doIscrivi(ActionEvent event) {
-
+    	int matricola;
+    	Corso c = btnComboBox.getValue();
+    	List<Studente> studenti = new LinkedList<Studente>(model.getAllStudents());
+    	try {
+    		matricola=Integer.parseInt(txtMatricola.getText());
+    	}
+    	catch(NumberFormatException e) {
+    		txtResult.setText("Errore: Inserire una matricola valida");
+    		return;
+    	}
+    	Studente s = new Studente(matricola);
+    	if(!studenti.contains(s)) {
+    		txtResult.setText("Errore: Studente non presente nel DataBase");
+    		return;
+    	}
+    	if(c==null) {
+    		txtResult.setText("Errore: Seleziona un corso dal menù a tendina");
+    		return;
+    	}
+//    	if(model.isIscritto(c,s)) {
+//    		txtResult.setText("Studente già iscritto al corso selezionato");
+//    		return;
+//    	}
+//    	else {
+//    		model.iscriviStudente(s,c);
+//    		txtResult.setText("Iscrizione avvenuta");
+//    		return;
+//    	}
     }
 
     @FXML
@@ -154,11 +180,12 @@ public class SegreteriaStudentiController {
     	}
     	if(model.isIscritto(c,s)) {
     		txtResult.setText("Studente iscritto al corso selezionato");
+    		return;
     	}
     	else {
     		txtResult.setText("Studente non iscritto al corso selezionato");
+    		return;
     	}
-
     }
 
     @FXML
@@ -179,7 +206,6 @@ public class SegreteriaStudentiController {
 
 	public void setModel(Model model) {
 		this.model = model;
-		btnComboBox.getItems().addAll(model.getAllCourses());
-		
+		btnComboBox.getItems().addAll(model.getAllCourses());	
 	}
 }
